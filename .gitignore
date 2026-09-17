@@ -1,0 +1,50 @@
+# --- Microdatos del INEI (no se redistribuyen) ------------------------------
+data/*
+!data/.gitkeep
+
+# --- Documentación del INEI (no se redistribuye) ----------------------------
+referencias/*
+!referencias/.gitkeep
+!referencias/README.md
+
+# --- Salidas generadas ------------------------------------------------------
+outputs/*
+!outputs/.gitkeep
+
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.python-version
+
+# --- Jupyter ----------------------------------------------------------------
+.ipynb_checkpoints/
+
+# --- Herramientas -----------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- Editores / sistema operativo -------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Asistentes de código ---------------------------------------------------
+.claude/
+.claude.json
+.claude.json.backup
+CLAUDE.md
+.cursor/
+.aider*
+.github/copilot-instructions.md

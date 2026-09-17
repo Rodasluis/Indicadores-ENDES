@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.png binary
+*.pdf binary
+*.xlsx binary
+*.dta binary
+*.parquet binary
+
+# Los notebooks se versionan con sus salidas para poder revisarlos sin ejecutarlos.
+*.ipynb text eol=lf

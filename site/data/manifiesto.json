@@ -1,0 +1,29 @@
+{
+  "indicadores": {
+    "archivo": "indicadores.json",
+    "anios": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "generado": "2026-08-07T01:42:28+00:00"
+  },
+  "directorio": {
+    "archivo": "directorio.json",
+    "total": 548,
+    "fuente": "https://www.mimp.gob.pe/omep/Consolidado_Directorio_Nacional_2026.xlsx"
+  },
+  "geometria": {
+    "archivos": [
+      "departamentos.geojson",
+      "ubigeos.json",
+      "geo/<ubigeo>.json"
+    ],
+    "departamentos": 25,
+    "provincias": 196,
+    "distritos": 1892,
+    "fuente": "https://github.com/Rodasluis/Peru-maps"
+  }
+}

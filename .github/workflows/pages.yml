@@ -1,0 +1,71 @@
+name: Publicar dashboard en GitHub Pages
+
+# El sitio de `site/` es estático: HTML, CSS, JS y los JSON que genera
+# `scripts/generar_sitio.py`. Este workflow solo lo publica; los datos se
+# regeneran a mano cuando el INEI libera un año nuevo, porque construirlos
+# exige descargar ~500 MB de microdatos.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Una publicación a la vez; no cancela la que esté en curso.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Comprobar la sintaxis del JavaScript
+        run: node --check site/assets/app.js
+
+      - name: Comprobar que los datos del sitio están presentes y son válidos
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+
+          fallos = []
+          for nombre in ("indicadores.json", "directorio.json"):
+              ruta = Path("site/data") / nombre
+              if not ruta.exists():
+                  fallos.append(f"falta {ruta}")
+                  continue
+              try:
+                  datos = json.loads(ruta.read_text(encoding="utf-8"))
+              except json.JSONDecodeError as e:
+                  fallos.append(f"{ruta}: JSON inválido ({e})")
+                  continue
+              print(f"{ruta}: {ruta.stat().st_size/1024:.0f} KB, claves {list(datos)}")
+
+          if fallos:
+              sys.exit("\n".join(fallos))
+          PY
+
+  publicar:
+    needs: verificar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

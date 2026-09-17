@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Indicadores de violencia de pareja contra la mujer en el Perú a partir de los microdatos de la ENDES (INEI). Validados contra los cuadros publicados por el INEI.">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+<title>Dashboard · Violencia contra la mujer en el Perú</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+
+<!-- Loading -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-msg" id="loadingMsg">Cargando datos…</div>
+  <div class="loading-sub">ENDES · INEI Perú</div>
+</div>
+
+<!-- INTRO MODAL -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-modal">
+
+    <div class="intro-header">
+      <div class="intro-header-badge">📊 ENDES · INEI Perú</div>
+      <div class="intro-title">
+        Datos para orientar la respuesta frente a la<br>
+        <span>violencia de pareja contra las mujeres en el Perú</span>
+      </div>
+      <div class="intro-quote">
+        "Contar con información confiable es fundamental para prevenir la violencia, fortalecer la respuesta del Estado, mejorar el diseño de políticas públicas y tomar decisiones informadas que garanticen la protección de las mujeres."
+      </div>
+    </div>
+
+    <div class="intro-body">
+      <div class="intro-panels-grid">
+
+        <div class="intro-panel-card" onclick="enterDashboard(1)">
+          <div class="intro-panel-num">Panel 1</div>
+          <span class="intro-panel-icon">📊</span>
+          <div class="intro-panel-title">El problema existe y es grande</div>
+          <div class="intro-panel-sub">Magnitud de la violencia de pareja en el Perú</div>
+          <span class="intro-panel-arrow">→</span>
+        </div>
+
+        <div class="intro-panel-card" onclick="enterDashboard(2)">
+          <div class="intro-panel-num">Panel 2</div>
+          <span class="intro-panel-icon">👥</span>
+          <div class="intro-panel-title">No afecta igual a todas</div>
+          <div class="intro-panel-sub">Perfiles y características de las mujeres afectadas</div>
+          <span class="intro-panel-arrow">→</span>
+        </div>
+
+        <div class="intro-panel-card" onclick="enterDashboard(3)">
+          <div class="intro-panel-num">Panel 3</div>
+          <span class="intro-panel-icon">🔄</span>
+          <div class="intro-panel-title">Hay dinámicas que lo sostienen</div>
+          <div class="intro-panel-sub">Factores de control, justificación y riesgo</div>
+          <span class="intro-panel-arrow">→</span>
+        </div>
+
+        <div class="intro-panel-card" onclick="enterDashboard(4)">
+          <div class="intro-panel-num">Panel 4</div>
+          <span class="intro-panel-icon">🆘</span>
+          <div class="intro-panel-title">La respuesta no llega donde más se necesita</div>
+          <div class="intro-panel-sub">Servicios, atención y barreras institucionales</div>
+          <span class="intro-panel-arrow">→</span>
+        </div>
+
+        <div class="intro-panel-card intro-panel-card--canales" onclick="enterDashboard(5)">
+          <div class="intro-panel-num">Panel 5</div>
+          <span class="intro-panel-icon">📞</span>
+          <div class="intro-panel-title">¿Dónde buscar ayuda?</div>
+          <div class="intro-panel-sub">Canales de atención — Guía del MIMP · Warmi Ñan</div>
+          <span class="intro-panel-arrow">→</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="intro-footer">
+      <div class="intro-nota">
+        <strong>Nota:</strong> En el marco de la Ley N° 30364 para prevenir, sancionar y erradicar la violencia contra las mujeres y los integrantes del grupo familiar.<br>
+        <strong>Fuente:</strong> INEI · Encuesta Demográfica y de Salud Familiar (ENDES) · Mujeres de 15 a 49 años, alguna vez unidas.
+      </div>
+      <button class="intro-btn" onclick="enterDashboard(1)">
+        <span>Explorar el dashboard</span> <span>→</span>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="update-toast" id="updateToast">
+  <span>🔄</span><span class="toast-msg"></span>
+</div>
+
+<div class="app">
+
+  <!-- TABS — flotantes, fondo gris, ancho completo -->
+  <div class="tabs-outer">
+    <div class="tabs">
+      <div class="tab active" onclick="showPanel(1)">
+        <span class="tab-icon">📊</span> <span class="tab-label">El problema existe y es grande</span> <span class="tab-num">1</span>
+      </div>
+      <div class="tab" onclick="showPanel(2)">
+        <span class="tab-icon">👥</span> <span class="tab-label">No afecta igual a todas</span> <span class="tab-num">2</span>
+      </div>
+      <div class="tab" onclick="showPanel(3)">
+        <span class="tab-icon">🔄</span> <span class="tab-label">Hay dinámicas que lo sostienen</span> <span class="tab-num">3</span>
+      </div>
+      <div class="tab" onclick="showPanel(4)">
+        <span class="tab-icon">🆘</span> <span class="tab-label">La respuesta no llega donde más se necesita</span> <span class="tab-num">4</span>
+      </div>
+      <div class="tab tab--canales" onclick="showPanel(5)">
+        <span class="tab-icon">📞</span> <span class="tab-label">Canales de atención</span> <span class="tab-num">5</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════════════════════════════
+         PANEL 1 · Magnitud
+         ═══════════════════════════════════ -->
+    <div class="panel active" id="panel-1">
+
+      <!-- Filtros unificados P1 -->
+      <div class="panel-filters" id="pf1">
+        <!-- Año -->
+        <div class="filter-group">
+          <span class="filter-label">Año</span>
+          <div class="multi-select-wrap" id="msWrap-p1">
+            <div class="multi-select-btn" onclick="toggleMs('p1')">
+              <span id="msLabel-p1">—</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-p1">
+              <!-- las opciones de año las inserta inicializarAnios() -->
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-sep"></div>
+
+        <!-- Departamento -->
+        <div class="filter-group">
+          <span class="filter-label">Departamento</span>
+          <div class="multi-select-wrap" id="msWrap-dep">
+            <div class="multi-select-btn" onclick="toggleMs('dep')" style="min-width:130px">
+              <span id="msLabel-dep">Todos</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-dep" style="max-height:280px;overflow-y:auto">
+              <div class="ms-option selected" data-val="Todos" onclick="toggleDepOpt('Todos',this)"><div class="ms-check">✓</div>Todos</div>
+              <div class="ms-option" data-val="Amazonas" onclick="toggleDepOpt('Amazonas',this)"><div class="ms-check"></div>Amazonas</div>
+              <div class="ms-option" data-val="Ancash" onclick="toggleDepOpt('Ancash',this)"><div class="ms-check"></div>Ancash</div>
+              <div class="ms-option" data-val="Apurimac" onclick="toggleDepOpt('Apurimac',this)"><div class="ms-check"></div>Apurimac</div>
+              <div class="ms-option" data-val="Arequipa" onclick="toggleDepOpt('Arequipa',this)"><div class="ms-check"></div>Arequipa</div>
+              <div class="ms-option" data-val="Ayacucho" onclick="toggleDepOpt('Ayacucho',this)"><div class="ms-check"></div>Ayacucho</div>
+              <div class="ms-option" data-val="Cajamarca" onclick="toggleDepOpt('Cajamarca',this)"><div class="ms-check"></div>Cajamarca</div>
+              <div class="ms-option" data-val="Callao" onclick="toggleDepOpt('Callao',this)"><div class="ms-check"></div>Callao</div>
+              <div class="ms-option" data-val="Cusco" onclick="toggleDepOpt('Cusco',this)"><div class="ms-check"></div>Cusco</div>
+              <div class="ms-option" data-val="Huancavelica" onclick="toggleDepOpt('Huancavelica',this)"><div class="ms-check"></div>Huancavelica</div>
+              <div class="ms-option" data-val="Huanuco" onclick="toggleDepOpt('Huanuco',this)"><div class="ms-check"></div>Huanuco</div>
+              <div class="ms-option" data-val="Ica" onclick="toggleDepOpt('Ica',this)"><div class="ms-check"></div>Ica</div>
+              <div class="ms-option" data-val="Junin" onclick="toggleDepOpt('Junin',this)"><div class="ms-check"></div>Junin</div>
+              <div class="ms-option" data-val="La Libertad" onclick="toggleDepOpt('La Libertad',this)"><div class="ms-check"></div>La Libertad</div>
+              <div class="ms-option" data-val="Lambayeque" onclick="toggleDepOpt('Lambayeque',this)"><div class="ms-check"></div>Lambayeque</div>
+              <div class="ms-option" data-val="Lima" onclick="toggleDepOpt('Lima',this)"><div class="ms-check"></div>Lima</div>
+              <div class="ms-option" data-val="Loreto" onclick="toggleDepOpt('Loreto',this)"><div class="ms-check"></div>Loreto</div>
+              <div class="ms-option" data-val="Madre de Dios" onclick="toggleDepOpt('Madre de Dios',this)"><div class="ms-check"></div>Madre de Dios</div>
+              <div class="ms-option" data-val="Moquegua" onclick="toggleDepOpt('Moquegua',this)"><div class="ms-check"></div>Moquegua</div>
+              <div class="ms-option" data-val="Pasco" onclick="toggleDepOpt('Pasco',this)"><div class="ms-check"></div>Pasco</div>
+              <div class="ms-option" data-val="Piura" onclick="toggleDepOpt('Piura',this)"><div class="ms-check"></div>Piura</div>
+              <div class="ms-option" data-val="Puno" onclick="toggleDepOpt('Puno',this)"><div class="ms-check"></div>Puno</div>
+              <div class="ms-option" data-val="San Martin" onclick="toggleDepOpt('San Martin',this)"><div class="ms-check"></div>San Martin</div>
+              <div class="ms-option" data-val="Tacna" onclick="toggleDepOpt('Tacna',this)"><div class="ms-check"></div>Tacna</div>
+              <div class="ms-option" data-val="Tumbes" onclick="toggleDepOpt('Tumbes',this)"><div class="ms-check"></div>Tumbes</div>
+              <div class="ms-option" data-val="Ucayali" onclick="toggleDepOpt('Ucayali',this)"><div class="ms-check"></div>Ucayali</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-sep"></div>
+
+        <!-- Tipo de violencia — mismo formato multiselect -->
+        <div class="filter-group">
+          <span class="filter-label">Tipo de violencia</span>
+          <div class="multi-select-wrap" id="msWrap-tipoP1">
+            <div class="multi-select-btn" onclick="toggleMs('tipoP1')" style="min-width:130px">
+              <span id="msLabel-tipoP1">Todos los tipos</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-tipoP1">
+              <div class="ms-option selected" data-val="violencia_fisica"      onclick="toggleTipoP1Opt('violencia_fisica',this)"><div class="ms-check">✓</div>Física</div>
+              <div class="ms-option selected" data-val="violencia_sexual"      onclick="toggleTipoP1Opt('violencia_sexual',this)"><div class="ms-check">✓</div>Sexual</div>
+              <div class="ms-option selected" data-val="violencia_psicologica" onclick="toggleTipoP1Opt('violencia_psicologica',this)"><div class="ms-check">✓</div>Psicológica</div>
+              <div class="ms-option selected" data-val="violencia_total"       onclick="toggleTipoP1Opt('violencia_total',this)"><div class="ms-check">✓</div>Total</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-clear-filters" onclick="clearFiltersP1()">✕ Limpiar filtros</button>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-row" id="kpiRow"></div>
+
+      <!-- Mapa + Gráficos — dos columnas que se igualan naturalmente -->
+      <div class="row col-2" style="align-items:stretch">
+
+        <!-- Mapa departamental — se estira para igualar la columna derecha -->
+        <div class="card" style="display:flex;flex-direction:column">
+          <div class="card-header" style="flex-shrink:0">
+            <div>
+              <div class="card-title">Prevalencia por departamento</div>
+              <div class="card-subtitle">Ordenado de mayor a menor violencia total</div>
+            </div>
+            <div class="card-actions">
+              <div class="temp-toggle" id="mapaToggle">
+                <button class="temp-btn active" data-val="av" onclick="setToggle('mapaToggle','av'); renderMapa(); renderNarrativesP1()">Alguna vez</button>
+                <button class="temp-btn" data-val="dm" onclick="setToggle('mapaToggle','dm'); renderMapa(); renderNarrativesP1()">Últimos 12m</button>
+              </div>
+            </div>
+          </div>
+          <div id="mapaWrap" style="height:880px;overflow-y:auto;overflow-x:hidden"></div>
+        </div>
+
+        <!-- Columna derecha — altura definida por sus gráficos -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+
+          <!-- G2 Prevalencia — 288px -->
+          <div class="card" style="flex-shrink:0">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Prevalencia por tipo de violencia</div>
+                <div class="card-subtitle" id="g2Subtitle">Porcentaje de mujeres afectadas</div>
+              </div>
+              <div class="card-actions">
+                <div class="temp-toggle" id="g2Toggle">
+                  <button class="temp-btn active" data-val="av" onclick="setToggle('g2Toggle','av'); renderP1Charts(); renderNarrativesP1()">Alguna vez</button>
+                  <button class="temp-btn" data-val="dm" onclick="setToggle('g2Toggle','dm'); renderP1Charts(); renderNarrativesP1()">Últimos 12m</button>
+                </div>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:288px"><canvas id="g2Chart"></canvas></div>
+            <div class="chart-note">La violencia sexual puede estar subestimada por el estigma asociado a su reporte.</div>
+          </div>
+
+          <!-- Coropleta — geometría de Perú-maps -->
+          <div class="card" style="flex-shrink:0">
+            <div class="card-header" style="flex-shrink:0">
+              <div>
+                <div class="card-title">Mapa de prevalencia</div>
+                <div class="card-subtitle" id="coropletaSubtitulo"></div>
+              </div>
+              <div class="card-actions">
+                <div class="temp-toggle" id="coropletaToggle">
+                  <button class="temp-btn active" data-val="av" onclick="setToggle('coropletaToggle','av'); renderCoropletaP1()">Alguna vez</button>
+                  <button class="temp-btn" data-val="dm" onclick="setToggle('coropletaToggle','dm'); renderCoropletaP1()">Últimos 12m</button>
+                </div>
+              </div>
+            </div>
+            <div id="coropletaWrap" class="mapa-wrap" style="height:420px"></div>
+            <div class="chart-note">Geometría: <a href="https://github.com/Rodasluis/Peru-maps" target="_blank" rel="noopener">Perú-maps</a>. Límites no oficiales, solo para uso estadístico.</div>
+          </div>
+
+          <!-- G4 Polivictimización — altura fija 288px para coincidir -->
+          <div class="card" style="flex-shrink:0">
+            <div class="card-header" style="flex-shrink:0">
+              <div>
+                <div class="card-title">Polivictimización</div>
+                <div class="card-subtitle">Combinaciones de tipos de violencia sufridos simultáneamente</div>
+              </div>
+              <div class="card-actions">
+                <div class="temp-toggle" id="vennToggle">
+                  <button class="temp-btn active" data-val="av" onclick="setToggle('vennToggle','av'); renderVennPanel(); renderNarrativesP1()">Alguna vez</button>
+                  <button class="temp-btn" data-val="dm" onclick="setToggle('vennToggle','dm'); renderVennPanel(); renderNarrativesP1()">Últimos 12m</button>
+                </div>
+              </div>
+            </div>
+            <div id="vennContainer" style="min-height:288px;overflow:auto"></div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /panel-1 -->
+
+    <!-- ═══════════════════════════════════
+         PANEL 2 · Perfiles
+         ═══════════════════════════════════ -->
+    <div class="panel" id="panel-2">
+      <div class="panel-filters">
+        <!-- Año -->
+        <div class="filter-group">
+          <span class="filter-label">Año</span>
+          <div class="multi-select-wrap" id="msWrap-p2">
+            <div class="multi-select-btn" onclick="toggleMs('p2')">
+              <span id="msLabel-p2">—</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-p2">
+              <!-- las opciones de año las inserta inicializarAnios() -->
+            </div>
+          </div>
+        </div>
+        <div class="filter-sep"></div>
+        <!-- Tipo de violencia con mismo formato multiselect -->
+        <div class="filter-group">
+          <span class="filter-label">Tipo de violencia</span>
+          <div class="multi-select-wrap" id="msWrap-tipo">
+            <div class="multi-select-btn" onclick="toggleMs('tipo')" style="min-width:130px">
+              <span id="msLabel-tipo">Todos los tipos</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-tipo">
+              <div class="ms-option selected" data-val="violencia_fisica"      onclick="toggleTipoOpt('violencia_fisica',this)"><div class="ms-check">✓</div>Física</div>
+              <div class="ms-option selected" data-val="violencia_sexual"      onclick="toggleTipoOpt('violencia_sexual',this)"><div class="ms-check">✓</div>Sexual</div>
+              <div class="ms-option selected" data-val="violencia_psicologica" onclick="toggleTipoOpt('violencia_psicologica',this)"><div class="ms-check">✓</div>Psicológica</div>
+              <div class="ms-option selected" data-val="violencia_total"       onclick="toggleTipoOpt('violencia_total',this)"><div class="ms-check">✓</div>Total</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-clear-filters" onclick="clearFiltersP2()">✕ Limpiar filtros</button>
+      </div>
+      <div id="p2Container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 3 · Dinámicas
+         ═══════════════════════════════════ -->
+    <div class="panel" id="panel-3">
+      <div class="panel-filters">
+        <div class="filter-group">
+          <span class="filter-label">Año</span>
+          <div class="multi-select-wrap" id="msWrap-p3">
+            <div class="multi-select-btn" onclick="toggleMs('p3')">
+              <span id="msLabel-p3">—</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-p3">
+              <!-- las opciones de año las inserta inicializarAnios() -->
+            </div>
+          </div>
+        </div>
+        <button class="btn-clear-filters" onclick="clearFiltersP3()">✕ Limpiar filtros</button>
+      </div>
+      <div class="row col-2">
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Conductas de control de la pareja</div>
+            <div class="card-subtitle">% de mujeres que reporta cada conducta</div>
+          </div></div>
+          <div class="chart-wrap" style="height:345px"><canvas id="p3Ctrl"></canvas></div>
+          <div class="chart-note">Las seis situaciones de control del cuadro 12.2 del INEI (D101A–D101F). Todas forman parte del indicador de violencia psicológica y/o verbal.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Frecuencia de embriaguez del esposo / compañero</div>
+            <div class="card-subtitle">Distribución entre parejas que consumen alcohol</div>
+          </div></div>
+          <div class="chart-wrap" style="height:345px"><canvas id="p3Alc"></canvas></div>
+          <div class="chart-note">El alcohol no causa la violencia — es un factor que amplifica su frecuencia y severidad.</div>
+        </div>
+      </div>
+      <div class="row col-2">
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Participación en decisiones del hogar</div>
+            <div class="card-subtitle">% de mujeres que participa en cada tipo de decisión</div>
+          </div></div>
+          <div class="chart-wrap" style="height:368px"><canvas id="p3Dec"></canvas></div>
+          <div class="chart-note">⚠ El año 2021 presenta valores metodológicamente distintos a los demás años.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Normalización de la violencia</div>
+            <div class="card-subtitle">% que justifica el maltrato en cada situación</div>
+          </div></div>
+          <div class="chart-wrap" style="height:368px"><canvas id="p3Just"></canvas></div>
+          <div class="chart-note">Todos los ítems por debajo del 2% en 2024. La normalización explícita es marginal en el Perú.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 4 · Respuesta
+         ═══════════════════════════════════ -->
+    <div class="panel" id="panel-4">
+      <div class="panel-filters">
+        <div class="filter-group">
+          <span class="filter-label">Año</span>
+          <div class="multi-select-wrap" id="msWrap-p4">
+            <div class="multi-select-btn" onclick="toggleMs('p4')">
+              <span id="msLabel-p4">—</span><span class="arrow">▾</span>
+            </div>
+            <div class="multi-select-dropdown" id="msDrop-p4">
+              <!-- las opciones de año las inserta inicializarAnios() -->
+            </div>
+          </div>
+        </div>
+        <button class="btn-clear-filters" onclick="clearFiltersP4()">✕ Limpiar filtros</button>
+      </div>
+      <div class="row col-2">
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Red de apoyo informal</div>
+            <div class="card-subtitle">¿A quién acudió la víctima? (entre quienes buscaron ayuda)</div>
+          </div></div>
+          <div class="chart-wrap" style="height:320px"><canvas id="p4Inf"></canvas></div>
+          <div class="chart-note">Una mujer puede haber acudido a más de una persona — los porcentajes no suman 100%.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">Institución a la que acudió</div>
+            <div class="card-subtitle">Distribución de búsqueda de ayuda institucional</div>
+          </div></div>
+          <div class="chart-wrap" style="height:320px"><canvas id="p4Inst"></canvas></div>
+          <div class="chart-note">La Comisaría concentra ~80% de las búsquedas. Una mujer puede haber acudido a más de una institución.</div>
+        </div>
+      </div>
+      <div class="row col-1">
+        <div class="card">
+          <div class="card-header"><div>
+            <div class="card-title">¿Por qué no buscó ayuda? — Barreras</div>
+            <div class="card-subtitle">Razones declaradas por mujeres que nunca denunciaron (D120)</div>
+          </div></div>
+          <div class="chart-wrap" style="height:336px"><canvas id="p4Barr"></canvas></div>
+          <div class="chart-note">"No era necesario" (~43%) domina. "Vergüenza" (~18%) y "No sabe dónde ir" (~11%) son barreras estructurales del sistema que requieren atención.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════
+         PANEL 5 · Canales de atención
+         ═══════════════════════════════════ -->
+    <div class="panel" id="panel-5">
+
+      <!-- Hero banner -->
+      <div class="p6-hero">
+        <div class="p6-hero-content">
+          <div class="p6-hero-badge">📞 GUÍA DEL MIMP</div>
+          <h2 class="p6-hero-title">¿Dónde buscar ayuda?</h2>
+          <p class="p6-hero-sub">Servicios del Programa Nacional <strong>Warmi Ñan</strong> — Ministerio de la Mujer y Poblaciones Vulnerables</p>
+          <a href="https://www.gob.pe/479-servicios-para-atender-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar" target="_blank" class="p6-hero-link">
+            🔗 Servicios para atender casos de violencia →
+          </a>
+        </div>
+        <div class="p6-hero-ley">
+          <span>Ley N° 30364</span> para prevenir, sancionar y erradicar la violencia contra las mujeres y los integrantes del grupo familiar
+        </div>
+      </div>
+
+      <!-- Canales grid -->
+      <div class="p6-channels-grid">
+
+        <!-- Línea 100: click-to-call -->
+        <div class="p6-channel-card p6-urgent">
+          <div class="p6-channel-icon">📞</div>
+          <div class="p6-channel-name">Línea 100</div>
+          <div class="p6-channel-type">Línea gratuita · 24/7</div>
+          <div class="p6-channel-desc">Servicio nacional de atención telefónica especializado en violencia familiar y sexual. Orientación, consejería y soporte emocional.</div>
+          <div class="p6-channel-tag p6-tag-free">Gratuito · Todo el Perú</div>
+          <div class="p6-linea100-wrap">
+            <a href="tel:100" class="p6-ctc-btn">
+              <span>📞</span> Llamar a la Linea 100 ahora
+            </a>
+            <div class="p6-ctc-note">La Linea 100 es gratuita desde cualquier operador en el Perú · 24/7</div>
+          </div>
+        </div>
+
+        <!-- Chat 100 -->
+        <div class="p6-channel-card p6-urgent">
+          <div class="p6-channel-icon">💬</div>
+          <div class="p6-channel-name">Chat 100</div>
+          <div class="p6-channel-type">Atención en línea · 24/7</div>
+          <div class="p6-channel-desc">Atención por chat en tiempo real para casos de violencia familiar y sexual. Acceso desde cualquier dispositivo con internet.</div>
+          <div class="p6-channel-tag p6-tag-free">Gratuito · Online</div>
+          <a href="https://chat100.warminan.gob.pe/" target="_blank" class="p6-channel-link">
+            💬 Ir al Chat 100 →
+          </a>
+        </div>
+
+        <!-- SAU -->
+        <div class="p6-channel-card p6-urgent">
+          <div class="p6-channel-icon">🚨</div>
+          <div class="p6-channel-name">Servicio de Atención Urgente (SAU)</div>
+          <div class="p6-channel-type">Intervención en crisis</div>
+          <div class="p6-channel-desc">Respuesta inmediata ante situaciones de riesgo severo o muy severo. Traslado y acompañamiento a la víctima en situaciones de emergencia.</div>
+          <div class="p6-channel-tag p6-tag-presencial">Intervención presencial</div>
+          <a href="https://www.gob.pe/institucion/warmi%C3%B1an/noticias/854986-servicio-de-atencion-urgente-un-equipo-de-profesionales-que-acuden-in-situ-ante-el-llamado-de-las-victimas-de-violencia" target="_blank" class="p6-channel-link">
+            🔗 Conocer el SAU →
+          </a>
+          <button class="p6-dir-btn" onclick="p6ScrollToDirectorio('SAU')">
+            📍 Ver SAU en tu zona
+          </button>
+        </div>
+
+        <!-- CEM -->
+        <div class="p6-channel-card">
+          <div class="p6-channel-icon">🏛️</div>
+          <div class="p6-channel-name">Centro Emergencia Mujer y Familia (CEM)</div>
+          <div class="p6-channel-type">Atención integral multidisciplinaria</div>
+          <div class="p6-channel-desc">Servicios de orientación legal, defensa judicial, consejería psicológica y asistencia social a víctimas de violencia familiar y sexual.</div>
+          <div class="p6-channel-tag p6-tag-presencial">Presencial · Nacional</div>
+          <button class="p6-dir-btn" onclick="p6ScrollToDirectorio('CEM')">
+            📍 Buscar CEM en tu zona
+          </button>
+        </div>
+
+        <!-- CAI -->
+        <div class="p6-channel-card">
+          <div class="p6-channel-icon">🏢</div>
+          <div class="p6-channel-name">Centro de Atención Institucional (CAI)</div>
+          <div class="p6-channel-type">Atención a personas agresoras</div>
+          <div class="p6-channel-desc">Servicio de reeducación para personas agresoras de violencia familiar. Intervención grupal e individual con enfoque terapéutico.</div>
+          <div class="p6-channel-tag p6-tag-especial">Servicio especializado</div>
+          <button class="p6-dir-btn" onclick="p6ScrollToDirectorio('CAI')">
+            📍 Buscar CAI en tu zona
+          </button>
+        </div>
+
+        <!-- SAR -->
+        <div class="p6-channel-card">
+          <div class="p6-channel-icon">🌿</div>
+          <div class="p6-channel-name">Servicio de Atención Rural (SAR)</div>
+          <div class="p6-channel-type">Zonas rurales y alejadas</div>
+          <div class="p6-channel-desc">Atención itinerante en comunidades rurales, zonas de frontera y poblaciones de difícil acceso donde no hay CEM disponible.</div>
+          <div class="p6-channel-tag p6-tag-rural">Zonas rurales</div>
+          <button class="p6-dir-btn" onclick="p6ScrollToDirectorio('SAR')">
+            📍 Buscar SAR en tu zona
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mapa de sedes — geometría de Perú-maps -->
+      <div id="p6-mapa-card" style="background:#fff;border:1px solid var(--c-border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-top:20px">
+        <div style="font-size:14px;font-weight:700;color:var(--c-text);margin-bottom:4px">🗺️ Dónde están los servicios</div>
+        <div style="font-size:12px;color:var(--c-muted);margin-bottom:12px">Elige tu departamento, provincia y distrito, o deja que el mapa te ubique. La forma del punto indica el tipo de servicio.</div>
+
+        <div id="p6-dir-loading" style="text-align:center;padding:24px;color:var(--c-muted);font-size:13px">
+          <div class="spinner" style="width:32px;height:32px;margin:0 auto 10px"></div>Cargando servicios…
+        </div>
+
+        <div id="p6-dir-content" style="display:none">
+          <div class="p6-filtros">
+            <div>
+              <label for="p6SelDep">Departamento</label>
+              <select id="p6SelDep" class="select-sm" onchange="p6CambiaDepartamento()">
+                <option value="">— Selecciona —</option>
+              </select>
+            </div>
+            <div>
+              <label for="p6SelProv">Provincia</label>
+              <select id="p6SelProv" class="select-sm" onchange="p6CambiaProvincia()" disabled>
+                <option value="">— Primero el departamento —</option>
+              </select>
+            </div>
+            <div>
+              <label for="p6SelDist">Distrito</label>
+              <select id="p6SelDist" class="select-sm" onchange="p6CambiaDistrito()" disabled>
+                <option value="">— Primero la provincia —</option>
+              </select>
+            </div>
+            <div class="p6-ubicar-col">
+              <button id="p6BtnUbicar" class="p6-ubicar" onclick="p6Ubicar()">
+                <span aria-hidden="true">📍</span> Usar mi ubicación
+              </button>
+              <button id="p6BtnLimpiar" class="p6-limpiar" onclick="p6Limpiar()">Limpiar</button>
+            </div>
+          </div>
+          <p id="p6-ubicar-estado" class="p6-ubicar-estado" role="status" aria-live="polite"></p>
+          <div id="p6MapaWrap" class="p6-mapa"></div>
+          <div id="p6-dir-total" style="font-size:11px;color:var(--c-muted);margin-bottom:12px"></div>
+          <div id="p6-dir-results"></div>
+        </div>
+
+        <div class="chart-note">
+          Tu ubicación se compara con los límites distritales <strong>dentro de tu navegador</strong>;
+          no se envía a ningún servidor. Geometría:
+          <a href="https://github.com/Rodasluis/Peru-maps" target="_blank" rel="noopener">Perú-maps</a>
+          (límites no oficiales, para uso estadístico). Sedes georreferenciadas del MIMP.
+        </div>
+      </div>
+
+      <!-- Nota de fuente -->
+      <div class="p6-footer">
+        <div class="p6-footer-source">
+          <strong>Fuente:</strong> Servicios del Programa Nacional Warmi Ñan — Ministerio de la Mujer y Poblaciones Vulnerables (MIMP).
+          En el marco de la Ley N° 30364.
+          <a href="https://www.gob.pe/479-servicios-para-atender-casos-de-violencia-contra-las-mujeres-e-integrantes-del-grupo-familiar" target="_blank">gob.pe · Servicios para atender la violencia</a>
+        </div>
+      </div>
+
+    </div><!-- /panel-5 -->
+
+  </div><!-- /content -->
+
+  <footer class="site-footer">
+    <p>
+      <strong>Fuente:</strong> INEI · Encuesta Demográfica y de Salud Familiar (ENDES).
+      Mujeres de 15 a 49 años alguna vez unidas. Estimaciones ponderadas, validadas
+      contra los cuadros publicados por el INEI.
+      <span id="tsDisplay"></span>
+    </p>
+    <p>
+      <strong>Servicios de atención:</strong> MIMP · Consolidado Directorio Nacional.
+      Verifica el horario y la vigencia del servicio antes de acudir.
+      La <strong>Línea 100</strong> atiende gratis en todo el país, las 24 horas.
+    </p>
+    <p class="site-footer-repo">
+      Código y metodología:
+      <a href="https://github.com/" target="_blank" rel="noopener">repositorio del proyecto</a>
+    </p>
+  </footer>
+
+</div><!-- /app -->
+
+<script src="assets/vendor/chart.umd.min.js"></script>
+<script src="assets/vendor/chartjs-plugin-datalabels.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
