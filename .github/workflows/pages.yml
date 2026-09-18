@@ -7,7 +7,7 @@ name: Publicar dashboard en GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "site/**"
       - ".github/workflows/pages.yml"
@@ -34,7 +34,7 @@ jobs:
 
       - name: Comprobar que los datos del sitio están presentes y son válidos
         run: |
-          python - <<'PY'
+          python3 - <<'PY'
           import json, sys
           from pathlib import Path
 
