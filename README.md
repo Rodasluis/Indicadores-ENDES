@@ -1,5 +1,7 @@
 # Indicadores de violencia de pareja — ENDES (Perú)
 
+### 📊 [Ver el dashboard →](https://rodasluis.github.io/Indicadores-ENDES/)
+
 Cálculo reproducible de los indicadores de **violencia familiar contra la mujer de 15 a 49 años
 ejercida por el esposo o compañero**, a partir de los microdatos de la Encuesta Demográfica y de
 Salud Familiar (ENDES) del INEI.
@@ -11,8 +13,8 @@ precisión muestral y **contrasta cada resultado contra la cifra publicada en el
 > y desviación estándar, cuadros 12.1, 12.1.1, 12.2, 12.4.1, 12.4.2 y 12.10, años 2021-2025.
 > Detalle en [`docs/validacion.md`](docs/validacion.md).
 
-Los mismos resultados alimentan un **dashboard público** ([`site/`](site/)), publicado con
-GitHub Pages a partir de los JSON que genera el pipeline.
+Los mismos resultados alimentan un **dashboard público**, descrito en
+[El dashboard](#el-dashboard).
 
 ## Resultados
 
@@ -125,31 +127,23 @@ causa más probable de un salto artificial en una serie.
 
 ## El dashboard
 
-[`site/`](site/) es un sitio estático —sin backend— que presenta estos indicadores en cinco
-paneles: magnitud, perfiles de mayor exposición, dinámicas que la sostienen, respuesta
-institucional y dónde buscar ayuda. Se publica con GitHub Pages desde
-[`.github/workflows/pages.yml`](.github/workflows/pages.yml).
+**https://rodasluis.github.io/Indicadores-ENDES/**
 
-```bash
-python scripts/generar_sitio.py    # reescribe site/data/*.json desde el pipeline
-cd site && python -m http.server   # verlo en local (fetch() no funciona sobre file://)
-```
+Cinco paneles que llevan al lector de la magnitud del problema a dónde pedir ayuda:
 
-`site/assets/app.js` lee los JSON por nombre de hoja y de columna. Ese contrato está fijado
-en [`tests/test_sitio.py`](tests/test_sitio.py), de modo que renombrar un indicador rompe una
-prueba en vez de dejar una barra en cero en el sitio publicado. Detalle en
-[`site/README.md`](site/README.md).
+| # | Panel | Qué muestra |
+|---|---|---|
+| 1 | El problema existe y es grande | Prevalencia nacional y por departamento de la violencia total, psicológica y/o verbal, física y sexual, en mapa y en serie 2021-2025, más la polivictimización |
+| 2 | No afecta igual a todas | La prevalencia desagregada por edad, área de residencia, educación, nivel de riqueza, situación de pareja, condición laboral, grupo étnico y antecedentes de violencia en la infancia |
+| 3 | Hay dinámicas que lo sostienen | Situaciones de control, consumo de alcohol de la pareja, participación de la mujer en las decisiones del hogar y justificación de la violencia física |
+| 4 | La respuesta no llega donde más se necesita | Búsqueda de ayuda en personas cercanas y en instituciones, a qué institución se acudió y las razones para no buscarla |
+| 5 | ¿Dónde buscar ayuda? | Los canales nacionales de atención y un buscador de las 548 sedes del MIMP (CEM, SAR, SAU, HRT y CAI) por departamento, provincia y distrito |
 
-El buscador de servicios usa el
-[Consolidado Directorio Nacional del MIMP](https://www.mimp.gob.pe/omep/Consolidado_Directorio_Nacional_2026.xlsx),
-filtrado a los servicios de atención frente a la violencia (CEM, SAR, SAU, HRT, CAI), y
-la geometría de [Perú-maps](https://github.com/Rodasluis/Peru-maps) en sus tres niveles:
-departamento, provincia y distrito. Las 548 sedes se atan a su distrito por **ubigeo**,
-lo que permite desplegables dependientes y un botón de autoubicación que resuelve el
-distrito dentro del navegador, sin enviar las coordenadas a ningún servidor.
+Las cifras del tablero son las mismas que `pytest tests` contrasta contra los cuadros del INEI:
+la prevalencia total alguna vez de 2025 que encabeza el panel 1 (49,09 %) es la del cuadro 12.1.
 
-Los mapas —una coropleta de prevalencia y el buscador de sedes— se dibujan en SVG, sin
-librería de mapas ni servidor de teselas. Límites no oficiales, solo para uso estadístico.
+Cómo está construido —contrato de datos, decisiones de diseño, mapas en SVG y privacidad del
+buscador— está en [`site/README.md`](site/README.md).
 
 ## Estructura
 
@@ -229,6 +223,13 @@ rigen por sus condiciones de uso; no se redistribuyen aquí (`referencias/` y `d
 versionados).
 
 ### Cómo citar
+
+Para citar este repositorio:
+
+> Rodas, L. (2026). *Indicadores de violencia de pareja — ENDES (Perú)* [software].
+> https://github.com/Rodasluis/Indicadores-ENDES
+
+Cita además la fuente de los datos, que son del INEI y no de este repositorio:
 
 > Instituto Nacional de Estadística e Informática (INEI). *Encuesta Demográfica y de Salud
 > Familiar (ENDES)*, 2021-2025. Microdatos. Lima, Perú.
