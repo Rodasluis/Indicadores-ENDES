@@ -1,5 +1,7 @@
 # Indicadores de violencia de pareja — ENDES (Perú)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22823100.svg)](https://doi.org/10.5281/zenodo.22823100)
+
 ### 📊 [Ver el dashboard →](https://rodasluis.github.io/Indicadores-ENDES/)
 
 Cálculo reproducible de los indicadores de **violencia familiar contra la mujer de 15 a 49 años

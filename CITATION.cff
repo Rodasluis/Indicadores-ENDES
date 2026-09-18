@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "Si usas este software, cítalo con los datos siguientes."
+title: "Indicadores de violencia de pareja — ENDES (Perú)"
+abstract: >-
+  Cálculo reproducible de los indicadores de violencia familiar contra la mujer
+  de 15 a 49 años ejercida por el esposo o compañero, a partir de los microdatos
+  de la Encuesta Demográfica y de Salud Familiar (ENDES) del INEI. Incluye la
+  estimación de la precisión muestral por linealización de Taylor, el contraste
+  automático contra los cuadros publicados por el INEI y un dashboard público.
+type: software
+authors:
+  - family-names: "Rodas Palomino"
+    given-names: "Luis"
+version: 1.0.0
+date-released: "2026-09-18"
+doi: 10.5281/zenodo.22823100
+license: MIT
+repository-code: "https://github.com/Rodasluis/Indicadores-ENDES"
+url: "https://rodasluis.github.io/Indicadores-ENDES/"
+keywords:
+  - ENDES
+  - INEI
+  - Perú
+  - violencia de género
+  - violencia de pareja
+  - DHS
+  - microdatos
