@@ -224,12 +224,8 @@ versionados).
 
 ### Cómo citar
 
-Para citar este repositorio:
+> Rodas Palomino, L. (2026). *Indicadores de violencia de pareja — ENDES (Perú)* (v1.0.0)
+> [software]. Zenodo. https://doi.org/10.5281/zenodo.22823100
 
-> Rodas, L. (2026). *Indicadores de violencia de pareja — ENDES (Perú)* [software].
-> https://github.com/Rodasluis/Indicadores-ENDES
-
-Cita además la fuente de los datos, que son del INEI y no de este repositorio:
-
-> Instituto Nacional de Estadística e Informática (INEI). *Encuesta Demográfica y de Salud
-> Familiar (ENDES)*, 2021-2025. Microdatos. Lima, Perú.
+Ese DOI es el de concepto: resuelve siempre a la última versión publicada. Si necesitas
+referirte exactamente a la v1.0.0, usa https://doi.org/10.5281/zenodo.22823101
